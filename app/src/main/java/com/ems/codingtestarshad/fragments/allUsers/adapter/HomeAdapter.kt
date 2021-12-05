@@ -2,7 +2,10 @@ package com.ems.codingtestarshad.fragments.allUsers.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import com.ems.codingtestarshad.R
 import com.ems.codingtestarshad.api.models.HomeResponseItem
 import com.ems.codingtestarshad.databinding.HomeRecLytBinding
 import com.ems.codingtestarshad.utils.fetch
@@ -24,6 +27,12 @@ class HomeAdapter(val array: List<HomeResponseItem>): RecyclerView.Adapter<HomeA
                     userCompany.text = it.company?.name
 
 
+                    setOnClickListener { _ ->
+                        findNavController().navigate(R.id.action_homeFragment_to_userDetailFragment,
+                        bundleOf(
+                            "userData" to it
+                        ))
+                    }
                 }
             }
         }

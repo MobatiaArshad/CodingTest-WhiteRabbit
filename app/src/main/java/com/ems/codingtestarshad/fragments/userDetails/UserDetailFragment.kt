@@ -6,27 +6,49 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import com.ems.codingtestarshad.R
+import com.ems.codingtestarshad.api.models.HomeResponseItem
+import com.ems.codingtestarshad.baseClass.BaseFragment
+import com.ems.codingtestarshad.databinding.UserDetailFragmentBinding
+import com.ems.codingtestarshad.utils.fetch
 
-class UserDetailFragment : Fragment() {
+class UserDetailFragment : BaseFragment() {
 
     companion object {
         fun newInstance() = UserDetailFragment()
     }
 
-    private lateinit var viewModel: UserDetailViewModel
+    override lateinit var viewModel: UserDetailViewModel
+    lateinit var binding: UserDetailFragmentBinding
+    var passed: HomeResponseItem? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.user_detail_fragment, container, false)
+        binding = UserDetailFragmentBinding.inflate(layoutInflater,container,false)
+        return binding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this)[UserDetailViewModel::class.java]
-        // TODO: Use the ViewModel
+        binding.viewModel = viewModel
+        binding.lifecycleOwner = viewLifecycleOwner
+
+        passed = arguments?.getParcelable("userData")
+
+        binding.ScrollingImage.fetch(passed?.profileImage!!)
+        binding.CollpaseTool.title = passed?.name!!
+        binding.companyTxt.text = passed?.company?.name
+        binding.emailTxt.text = passed?.email
+        binding.websiteTxt.text = passed?.website
+
+
+        binding.BckBtn.setOnClickListener {
+            findNavController().navigateUp()
+        }
     }
 
 }
