@@ -11,6 +11,7 @@ import com.ems.codingtestarshad.R
 import com.ems.codingtestarshad.api.models.HomeResponseItem
 import com.ems.codingtestarshad.baseClass.BaseFragment
 import com.ems.codingtestarshad.databinding.UserDetailFragmentBinding
+import com.ems.codingtestarshad.db.UsersData
 import com.ems.codingtestarshad.utils.fetch
 
 class UserDetailFragment : BaseFragment() {
@@ -21,7 +22,7 @@ class UserDetailFragment : BaseFragment() {
 
     override lateinit var viewModel: UserDetailViewModel
     lateinit var binding: UserDetailFragmentBinding
-    var passed: HomeResponseItem? = null
+    var passed: UsersData? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,9 +40,9 @@ class UserDetailFragment : BaseFragment() {
 
         passed = arguments?.getParcelable("userData")
 
-        binding.ScrollingImage.fetch(passed?.profileImage!!)
+        binding.ScrollingImage.fetch(passed?.image!!)
         binding.CollpaseTool.title = passed?.name!!
-        binding.companyTxt.text = passed?.company?.name
+        binding.companyTxt.text = passed?.company!!
         binding.emailTxt.text = passed?.email
         binding.websiteTxt.text = passed?.website
 

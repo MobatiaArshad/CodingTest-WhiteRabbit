@@ -6,12 +6,17 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Observer
 import com.ems.codingtestarshad.R
 import com.ems.codingtestarshad.baseClass.BaseFragment
 import com.ems.codingtestarshad.databinding.HomeFragmentBinding
 import com.ems.codingtestarshad.databinding.HomeRecLytBinding
+import com.ems.codingtestarshad.db.UsersData
+import com.ems.codingtestarshad.db.userDataBase
 import com.ems.codingtestarshad.fragments.allUsers.adapter.HomeAdapter
+import com.ems.codingtestarshad.utils.isOnline
 
 class HomeFragment : BaseFragment() {
 
@@ -33,6 +38,7 @@ class HomeFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -41,8 +47,37 @@ class HomeFragment : BaseFragment() {
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
 
-        viewModel.usersData.observe(viewLifecycleOwner, Observer {
-            binding.homeRec.adapter = HomeAdapter(it)
+        if (isOnline(requireContext())){
+            viewModel.usersData.observe(viewLifecycleOwner, Observer {
+                if (userDataBase.getDatabase(requireContext()).userDao().getAll().isNotEmpty()) it.forEach { data ->
+                    userDataBase.getDatabase(requireContext()).userDao().insert(
+                        UsersData(
+                            data.name!!,
+                            data.profileImage,
+                            data.company?.name,
+                            data.email!!,
+                            data.website
+                        )
+                    )
+                }
+            })
+        } else {
+            Toast.makeText(requireContext(), "Please Check your Internet Connection", Toast.LENGTH_SHORT).show()
+        }
+
+        val adapter: HomeAdapter = HomeAdapter(userDataBase.getDatabase(requireContext()).userDao().getAll() as ArrayList<UsersData>)
+        binding.homeRec.adapter = adapter
+
+        binding.searchEdt.setOnQueryTextListener(object: SearchView.OnQueryTextListener{
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                adapter.filter.filter(newText)
+                return false
+            }
+
         })
     }
 

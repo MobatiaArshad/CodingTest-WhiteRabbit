@@ -24,7 +24,7 @@ data class HomeResponseItem(
     @SerializedName("username")
     var username: String?,
     @SerializedName("website")
-    var website: String?
+    var website: String
 ) : Parcelable {
 
     @Parcelize
@@ -57,6 +57,6 @@ data class HomeResponseItem(
         @SerializedName("catchPhrase")
         var catchPhrase: String?,
         @SerializedName("name")
-        var name: String?
+        var name: String
     ): Parcelable
 }

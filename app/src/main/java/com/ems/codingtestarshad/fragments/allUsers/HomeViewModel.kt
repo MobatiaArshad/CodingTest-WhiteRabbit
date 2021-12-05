@@ -12,6 +12,10 @@ class HomeViewModel : BaseViewModel() {
     var usersData: MutableLiveData<List<HomeResponseItem>> = MutableLiveData()
 
     init {
+
+    }
+
+    fun getUserData(){
         viewModelScope.launch {
             usersData.value = RetrofitClient.apiService.getUserData()
         }

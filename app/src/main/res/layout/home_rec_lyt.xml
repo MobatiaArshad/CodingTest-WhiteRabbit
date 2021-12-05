@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <com.google.android.material.imageview.ShapeableImageView
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/userImg"
             android:layout_width="70dp"
             android:layout_height="70dp"
@@ -22,7 +22,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:shapeAppearanceOverlay="@style/customRoundedImageView" />
+            app:shapeAppearanceOverlay="@style/roundedCorners" />
 
         <TextView
             android:id="@+id/userName"
