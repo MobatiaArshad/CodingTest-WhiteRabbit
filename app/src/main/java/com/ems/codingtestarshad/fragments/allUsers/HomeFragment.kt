@@ -48,18 +48,22 @@ class HomeFragment : BaseFragment() {
         binding.lifecycleOwner = viewLifecycleOwner
 
         if (isOnline(requireContext())){
+            viewModel.getUserData()
+
             viewModel.usersData.observe(viewLifecycleOwner, Observer {
-                if (userDataBase.getDatabase(requireContext()).userDao().getAll().isNotEmpty()) it.forEach { data ->
-                    userDataBase.getDatabase(requireContext()).userDao().insert(
-                        UsersData(
-                            data.name!!,
-                            data.profileImage,
-                            data.company?.name,
-                            data.email!!,
-                            data.website
+                    it.forEach { data ->
+                        userDataBase.getDatabase(requireContext()).userDao().insert(
+                            UsersData(
+                                data.name!!,
+                                data.profileImage,
+                                data.company?.name,
+                                data.email!!,
+                                data.website
+                            )
                         )
-                    )
-                }
+                    }
+
+                binding.homeRec.adapter = HomeAdapter(userDataBase.getDatabase(requireContext()).userDao().getAll() as ArrayList<UsersData>)
             })
         } else {
             Toast.makeText(requireContext(), "Please Check your Internet Connection", Toast.LENGTH_SHORT).show()
