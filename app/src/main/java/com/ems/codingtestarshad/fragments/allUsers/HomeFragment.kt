@@ -48,36 +48,13 @@ class HomeFragment : BaseFragment() {
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
 
-
-
         if (isOnline(requireContext())) viewModel.getUserData()
+        else viewModel.getOfflineData()
 
-        viewModel.usersData.observe(viewLifecycleOwner, Observer {
-            it.forEach { data ->
-                userDataBase.getDatabase(requireContext()).userDao().insert(
-                    UsersData(
-                        data.name!!,
-                        data.profileImage,
-                        data.company?.name,
-                        data.email!!,
-                        data.website
-                    )
-                )
-            }
-
-            adapter = HomeAdapter(
-                userDataBase.getDatabase(requireContext()).userDao()
-                    .getAll() as ArrayList<UsersData>
-            )
+        viewModel.onDataUploaded.observe(viewLifecycleOwner, Observer {
+            adapter = HomeAdapter(userDataBase.getDatabase(requireContext()).userDao().getAll() as ArrayList<UsersData>)
             binding.homeRec.adapter = adapter
         })
-
-
-        adapter = HomeAdapter(
-            userDataBase.getDatabase(requireContext()).userDao()
-                .getAll() as ArrayList<UsersData>
-        )
-        binding.homeRec.adapter = adapter
 
         binding.searchEdt.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
@@ -90,7 +67,6 @@ class HomeFragment : BaseFragment() {
             }
 
         })
-
 
 
     }
