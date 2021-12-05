@@ -26,12 +26,13 @@ class HomeFragment : BaseFragment() {
 
     override lateinit var viewModel: HomeViewModel
     lateinit var binding: HomeFragmentBinding
+    lateinit var adapter: HomeAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = HomeFragmentBinding.inflate(layoutInflater,container,false)
+        binding = HomeFragmentBinding.inflate(layoutInflater, container, false)
         return binding.root
     }
 
@@ -47,32 +48,37 @@ class HomeFragment : BaseFragment() {
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
 
-        if (isOnline(requireContext())){
-            viewModel.getUserData()
 
-            viewModel.usersData.observe(viewLifecycleOwner, Observer {
-                    it.forEach { data ->
-                        userDataBase.getDatabase(requireContext()).userDao().insert(
-                            UsersData(
-                                data.name!!,
-                                data.profileImage,
-                                data.company?.name,
-                                data.email!!,
-                                data.website
-                            )
-                        )
-                    }
 
-                binding.homeRec.adapter = HomeAdapter(userDataBase.getDatabase(requireContext()).userDao().getAll() as ArrayList<UsersData>)
-            })
-        } else {
-            Toast.makeText(requireContext(), "Please Check your Internet Connection", Toast.LENGTH_SHORT).show()
-        }
+        if (isOnline(requireContext())) viewModel.getUserData()
 
-        val adapter: HomeAdapter = HomeAdapter(userDataBase.getDatabase(requireContext()).userDao().getAll() as ArrayList<UsersData>)
+        viewModel.usersData.observe(viewLifecycleOwner, Observer {
+            it.forEach { data ->
+                userDataBase.getDatabase(requireContext()).userDao().insert(
+                    UsersData(
+                        data.name!!,
+                        data.profileImage,
+                        data.company?.name,
+                        data.email!!,
+                        data.website
+                    )
+                )
+            }
+            adapter = HomeAdapter(
+                userDataBase.getDatabase(requireContext()).userDao()
+                    .getAll() as ArrayList<UsersData>
+            )
+            binding.homeRec.adapter = adapter
+        })
+
+
+        adapter = HomeAdapter(
+            userDataBase.getDatabase(requireContext()).userDao()
+                .getAll() as ArrayList<UsersData>
+        )
         binding.homeRec.adapter = adapter
 
-        binding.searchEdt.setOnQueryTextListener(object: SearchView.OnQueryTextListener{
+        binding.searchEdt.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 return false
             }
@@ -83,6 +89,9 @@ class HomeFragment : BaseFragment() {
             }
 
         })
+
+
+
     }
 
 }

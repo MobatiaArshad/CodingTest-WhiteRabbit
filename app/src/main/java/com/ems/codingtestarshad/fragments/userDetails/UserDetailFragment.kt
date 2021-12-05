@@ -40,11 +40,11 @@ class UserDetailFragment : BaseFragment() {
 
         passed = arguments?.getParcelable("userData")
 
-        binding.ScrollingImage.fetch(passed?.image!!)
-        binding.CollpaseTool.title = passed?.name!!
-        binding.companyTxt.text = passed?.company!!
-        binding.emailTxt.text = passed?.email
-        binding.websiteTxt.text = passed?.website
+        binding.ScrollingImage.fetch(passed?.image!! ?: "")
+        binding.CollpaseTool.title = passed?.name!! ?: ""
+        binding.companyTxt.text = passed?.company!! ?: ""
+        binding.emailTxt.text = passed?.email ?: ""
+        binding.websiteTxt.text = passed?.website ?: ""
 
 
         binding.BckBtn.setOnClickListener {
