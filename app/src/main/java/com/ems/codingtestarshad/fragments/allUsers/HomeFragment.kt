@@ -64,6 +64,7 @@ class HomeFragment : BaseFragment() {
                     )
                 )
             }
+
             adapter = HomeAdapter(
                 userDataBase.getDatabase(requireContext()).userDao()
                     .getAll() as ArrayList<UsersData>
