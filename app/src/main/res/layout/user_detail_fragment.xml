@@ -13,6 +13,7 @@
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/baseColor"
         tools:context=".fragments.userDetails.UserDetailFragment">
 
         <com.google.android.material.appbar.AppBarLayout
@@ -101,6 +102,8 @@
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="16dp"
                         android:text="Company"
+                        android:textColor="@color/white"
+                        android:textStyle="bold"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -110,6 +113,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
                         android:text="Email"
+                        android:textColor="@color/white"
+                        android:textStyle="bold"
                         app:layout_constraintStart_toStartOf="@+id/companyTitle"
                         app:layout_constraintTop_toBottomOf="@+id/companyTitle" />
 
@@ -119,6 +124,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
                         android:text="Website"
+                        android:textColor="@color/white"
+                        android:textStyle="bold"
                         app:layout_constraintStart_toStartOf="@+id/emailTitle"
                         app:layout_constraintTop_toBottomOf="@+id/emailTitle" />
 
@@ -127,6 +134,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="32dp"
+                        android:textColor="@color/white"
                         app:layout_constraintBottom_toBottomOf="@+id/companyTitle"
                         app:layout_constraintStart_toEndOf="@+id/companyTitle"
                         app:layout_constraintTop_toTopOf="@+id/companyTitle"
@@ -136,6 +144,7 @@
                         android:id="@+id/emailTxt"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:textColor="@color/white"
                         app:layout_constraintBottom_toBottomOf="@+id/emailTitle"
                         app:layout_constraintStart_toStartOf="@+id/companyTxt"
                         app:layout_constraintTop_toTopOf="@+id/emailTitle"
@@ -145,6 +154,7 @@
                         android:id="@+id/websiteTxt"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:textColor="@color/white"
                         app:layout_constraintBottom_toBottomOf="@+id/websiteTitle"
                         app:layout_constraintStart_toStartOf="@+id/emailTxt"
                         app:layout_constraintTop_toTopOf="@+id/websiteTitle"
