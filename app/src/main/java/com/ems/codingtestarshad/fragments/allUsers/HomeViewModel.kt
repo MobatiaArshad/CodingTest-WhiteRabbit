@@ -1,7 +1,19 @@
 package com.ems.codingtestarshad.fragments.allUsers
 
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
+import com.ems.codingtestarshad.api.RetrofitClient
+import com.ems.codingtestarshad.api.models.HomeResponseItem
+import com.ems.codingtestarshad.baseClass.BaseViewModel
+import kotlinx.coroutines.launch
 
-class HomeViewModel : ViewModel() {
-    // TODO: Implement the ViewModel
+class HomeViewModel : BaseViewModel() {
+
+    var usersData: MutableLiveData<List<HomeResponseItem>> = MutableLiveData()
+
+    init {
+        viewModelScope.launch {
+            usersData.value = RetrofitClient.apiService.getUserData()
+        }
+    }
 }
